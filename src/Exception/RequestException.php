@@ -15,6 +15,7 @@
 namespace Graze\GuzzleHttp\JsonRpc\Exception;
 
 use Exception;
+use GuzzleHttp\BodySummarizerInterface;
 use Graze\GuzzleHttp\JsonRpc\Message\RequestInterface;
 use Graze\GuzzleHttp\JsonRpc\Message\ResponseInterface;
 use GuzzleHttp\Exception\RequestException as HttpRequestException;
@@ -36,9 +37,10 @@ class RequestException extends HttpRequestException
     public static function create(
         HttpRequestInterface $request,
         HttpResponseInterface $response = null,
-        Exception $previous = null,
-        array $handlerContext = null
-    ) {
+        \Throwable $previous = null,
+        array $handlerContext = null,
+        BodySummarizerInterface $bodySummarizer = null
+    ): HttpRequestException {
         if ($request instanceof RequestInterface && $response instanceof ResponseInterface) {
             static $clientErrorCodes = [-32600, -32601, -32602, -32700];
 
